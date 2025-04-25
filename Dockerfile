@@ -30,10 +30,10 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
-# Create logs directory and set appropriate permissions
-RUN mkdir -p /logs && \
-    chown -R appuser:appuser /logs && \
-    chmod 755 /logs
+# Create log directories (both absolute and relative paths)
+RUN mkdir -p /app/logs logs && \
+    chown -R appuser:appuser /app/logs logs && \
+    chmod 755 /app/logs logs
 
 # Make sure the JAR file is accessible to the appuser
 RUN chown appuser:appuser app.jar
@@ -42,4 +42,5 @@ USER appuser
 
 EXPOSE 8185
 
-CMD ["java", "-jar", "/app/app.jar"]
+# Add Java system property to specify log file location explicitly
+CMD ["java", "-Dlogging.file.path=/app/logs", "-jar", "/app/app.jar"]
