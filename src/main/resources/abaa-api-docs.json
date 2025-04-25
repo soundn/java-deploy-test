@@ -1,0 +1,357 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AspaceLifeTech Backend Documentation",
+    "version": "1.0.0-SNAPSHOT",
+    "description": "AspaceLifeTech Interview-Backend  Documentation"
+  },
+  "license": {
+    "name": "iOS Interview",
+    "url": "https://www.interview.abaaapps.com/license"
+  },
+  "tags": [
+    {
+      "name": "Home"
+    },
+    {
+      "name": "Authentication",
+      "description": ""
+    },
+    {
+      "name": "Stock-Data",
+      "description": ""
+    },
+    {
+      "name": "Web-Socket",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "summary": "Home",
+        "description": "Home",
+        "responses": {
+          "200": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/auth_login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login Authentication",
+        "description": "Login Authentication",
+        "operationId": "Login_Authentication",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 15
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 25
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation Completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "",
+                      "example": "true"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication was Successful"
+                    },
+                    "statusCode": {
+                      "type": "int",
+                      "example": 200
+                    },
+                    "dataSuccess": {
+                      "type": "object",
+                      "properties": {
+                        "gatewayResponse": {
+                          "type": "string",
+                          "example": "Login Request was Successful"
+                        },
+                        "userDetails": {
+                          "type": "object",
+                          "properties": {
+                            "userId": {
+                              "type": "string",
+                              "example": "u1g89h8"
+                            },
+                            "fullName": {
+                              "type": "string",
+                              "example": "Patric"
+                            },
+                            "jobPosition": {
+                              "type": "string",
+                              "example": "iOS Frontend Senior Developer"
+                            },
+                            "loginDate": {
+                              "type": "string",
+                              "example": "2024-12-06"
+                            },
+                            "loginTime": {
+                              "type": "string",
+                              "example": "12:00:00 PM"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Operation Completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "",
+                      "example": "false"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid Username or Password"
+                    },
+                    "statusCode": {
+                      "type": "int",
+                      "example": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fetch_stock_data/{stock_name}": {
+      "get": {
+        "tags": [
+          "Stock-Data"
+        ],
+        "summary": "Home",
+        "description": "Home",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stock_name",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stockId": {
+                      "type": "string",
+                      "description": "",
+                      "example": "26730"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "",
+                      "example": "BTC"
+                    },
+                    "stockImage": {
+                      "type": "string",
+                      "description": "",
+                      "example": "https://interview.abaaapps.com:8185/image_404.png"
+                    },
+                    "stockPriceData": {
+                      "type": "array",
+                      "description": "",
+                      "example": [
+                        {
+                          "day": "1",
+                          "stockPrice": "1000.00"
+                        },
+                        {
+                          "day": "2",
+                          "stockPrice": "1060.00"
+                        },
+                        {
+                          "day": "3",
+                          "stockPrice": "860.00"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication Fail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/AuthenticationTokenRequired"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/socket_connect": {
+      "get": {
+        "tags": [
+          "Web-Socket"
+        ],
+        "summary": "Websocket Connect",
+        "description": "Get live Stock Price Update",
+        "responses": {
+          "200": {
+            "description": "Stock data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "properties": {
+                    "stockId": {
+                      "type": "string",
+                      "description": "",
+                      "example": "26730"
+                    },
+                    "stockName": {
+                      "type": "string",
+                      "description": "",
+                      "example": "BTC"
+                    },
+                    "stockPrice": {
+                      "type": "string",
+                      "description": "",
+                      "example": "100,000.00"
+                    },
+                    "stockImage": {
+                      "type": "string",
+                      "description": "",
+                      "example": "https://interview.abaaapps.com:8185/image_404.png"
+                    }
+                  },
+                  "example": [
+                    {
+                      "stockId": "26730",
+                      "stockName": "BTC",
+                      "stockPrice": "100,000.00",
+                      "stockImage": "https://interview.abaaapps.com:8185/image_404.png"
+                    },
+                    {
+                      "stockId": "199730",
+                      "stockName": "ETH",
+                      "stockPrice": "4000.00",
+                      "stockImage": "https://interview.abaaapps.com:8185/image_404.png"
+                    },
+                    {
+                      "stockId": "026730",
+                      "stockName": "SOL",
+                      "stockPrice": "10,000.00",
+                      "stockImage": "https://interview.abaaapps.com:8185/image_404.png"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Authentication"
+      }
+    },
+    "AuthenticationTokenRequired": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "",
+          "example": "false"
+        },
+        "message": {
+          "type": "string",
+          "example": "Authentication Token Required!"
+        },
+        "statusCode": {
+          "type": "int",
+          "example": 401
+        },
+        "isConstraintError": {
+          "type": "boolean",
+          "example": false
+        },
+        "dataError": {
+          "type": "object",
+          "example": {
+            "gatewayResponse": "User Authentication Fail",
+            "date": "2024-10-10",
+            "time": "07:23:16 AM"
+          }
+        },
+        "status": {
+          "type": "string",
+          "example": "fail"
+        }
+      }
+    }
+  }
+}

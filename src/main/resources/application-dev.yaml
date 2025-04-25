@@ -1,0 +1,7 @@
+abaa-config-prop:
+    web-server-config:
+        port: 2991
+        host: 127.0.0.1
+        cookieDomain: https://127.0.0.1:2991
+        certPath: /abaabackend/abaa-front-end-interview/src/main/resources/cert/localhost.crt
+        certKeyPath: /abaabackend/abaa-front-end-interview/src/main/resources/cert/localhost.decrypted.key

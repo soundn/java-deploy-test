@@ -1,0 +1,7 @@
+abaa-config-prop:
+    web-server-config:
+        port: 8185
+        host: 45.90.122.16
+        cookieDomain: https://interview.abaaapps.com
+        certPath: /etc/letsencrypt/live/interview.abaaapps.com/fullchain.pem
+        certKeyPath: /etc/letsencrypt/live/interview.abaaapps.com/privkey.pem
