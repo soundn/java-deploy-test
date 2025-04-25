@@ -14,8 +14,10 @@ RUN ./mvnw dependency:go-offline -DskipTests
 # Copy source code
 COPY ./src src/
 
-# Build the application
-RUN ./mvnw package -DskipTests
+# Build the application and rename the jar for easier reference
+RUN ./mvnw package -DskipTests && \
+    find target -name "*.jar" -not -name "*sources.jar" -not -name "*javadoc.jar" -exec cp {} app.jar \; && \
+    ls -la app.jar
 
 # Set up a non-privileged user
 ARG UID=10001
@@ -33,8 +35,11 @@ RUN mkdir -p /logs && \
     chown -R appuser:appuser /logs && \
     chmod 755 /logs
 
+# Make sure the JAR file is accessible to the appuser
+RUN chown appuser:appuser app.jar
+
 USER appuser
 
 EXPOSE 8185
 
-CMD ["java", "-jar", "target/*.jar"]
+CMD ["java", "-jar", "/app/app.jar"]
