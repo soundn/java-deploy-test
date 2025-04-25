@@ -20,7 +20,7 @@ jobs:
             cd java-deploy-test
             echo "in the directory now"
             git pull
-            docker build -t java:latest .
+            docker build --no-cache -t java:latest .
             docker stop java || true
             docker rm java || true
             docker run -d --name java \
